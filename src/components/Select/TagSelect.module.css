@@ -45,7 +45,7 @@
 
 @media (max-width: 575.98px) {
   .search__box > button {
-    margin-top: 40px;
+    margin-top: 20px;
   }
 }
 
@@ -69,4 +69,18 @@
 [class$='-option'] {
   font-size: 1.6em !important;
   color: gray !important;
+}
+
+.search__submit {
+  font-weight: bold;
+}
+
+.search__submit:hover .loader path {
+    fill: #6aaf5c;
+}
+
+@media (max-width: 990px) {
+  .select {
+    margin-right: 1rem;
+  }
 }

@@ -84,7 +84,6 @@
 }
 
 @media (max-width: 575.98px) {
-  .candidateSidebar__info__btn,
   .candidateSidebar__info__l,
   .candidateSidebar__arrows {
     display: none;
@@ -130,4 +129,20 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+@media (max-width: 1199px) {
+  .candidateSidebar {
+    flex-direction: row;
+    padding-left: 16px;
+  }
+
+  .candidateSidebar__info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .candidateSidebar__info__e, .candidateSidebar__info__y {
+    width: 180px;
+  }
 }

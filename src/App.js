@@ -1,60 +1,55 @@
-import React, { Suspense, lazy } from 'react';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './fonts/stylesheet.css';
+import React, { Suspense, lazy } from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { selectAuth } from './redux/outstaffingSlice';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './fonts/stylesheet.css'
+import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
 
-const AuthPageForDevelopers = lazy(() => import('./pages/AuthPageForDevelopers'));
-// const AuthPageForPartners = lazy(() => import('./pages/AuthPageForPartners'));
-const HomePage = lazy(() => import('./pages/HomePage'));
-const CandidatePage = lazy(() => import('./pages/CandidatePage'));
-const CalendarPage = lazy(() => import('./pages/CalendarPage'));
-const ReportPage = lazy(() => import('./pages/ReportFormPage.js'));
-const FormPage = lazy(() => import('./pages/FormPage.js'));
+import { YMInitializer } from 'react-yandex-metrika';
 
-const App = () => {
-  const isAuth = useSelector(selectAuth);
-  // const [candidateForCalendar, setCandidateForCalendar] = useState([]);
+import AuthPageForDevelopers from './pages/AuthPageForDevelopers';
+import AuthPageForPartners from './pages/AuthPageForPartners';
+import HomePage from './pages/HomePage';
+import CandidatePage from './pages/CandidatePage';
+import CalendarPage from'./pages/CalendarPage';
+import ReportPage from './pages/ReportFormPage.js';
+import FormPage from './pages/FormPage.js';
 
-  // const getCandidateForCalendar = (candidate) => {
-  //   console.log('candidate ', candidate);
-  //   setCandidateForCalendar(candidate);
-  // };
-
-  return (
+const App = (props) => {
+  const isAuth = useSelector(selectAuth)
+  return (<>
+    <h1>IT Аутстаффинг в России</h1>
     <Router>
-      <Suspense fallback={<div>Loading...</div>}>
-        {isAuth ? (
-          <Switch>
-            <Route path="/" exact>
-              <HomePage />
-            </Route>
-            <Route path="/candidate/:id">
-              <CandidatePage />
-            </Route>
-            <Route path="/calendar">
-              <CalendarPage />
-            </Route>
-            <Route path="/form">
-              <FormPage />
-            </Route>
-            <Route path="/report">
-              <ReportPage />
-            </Route>
-            <Route>
-              <div>Not found page</div>
-            </Route>
-          </Switch>
-        ) : (
-          <Route path="/" exact>
-            {/* <AuthPageForPartners /> */}
+        <Switch>
+          <Route path='/authdev' exact>
             <AuthPageForDevelopers />
           </Route>
-        )}
-      </Suspense>
+          <Route path='/auth' exact>
+            <AuthPageForPartners />
+          </Route>
+          <ProtectedRoute exact path='/' component={HomePage} />
+          <ProtectedRoute exact path='/candidate/:id' component={CandidatePage} />
+          <ProtectedRoute path='/calendar' component={CalendarPage} />
+          <ProtectedRoute exact path='/candidate/:id/form' component={FormPage} />
+          <ProtectedRoute path='/report' component={ReportPage} />
+          <ProtectedRoute component={()=><div>Page not found</div>} />
+        </Switch>
     </Router>
-  );
-};
+    
+    {/* <YMInitializer 
+      accounts={[84188125]} 
+      options={{
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+        }} 
+      version="2" 
+    /> */}
+    </>
+  )
+}
 
-export default App;
+
+export default App
